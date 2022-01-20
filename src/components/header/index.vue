@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <h4>XX项目管理平台</h4>
+        <h4>达成度评价系统</h4>
     </div>
 </template>
 

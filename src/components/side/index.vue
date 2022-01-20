@@ -1,34 +1,24 @@
 <template>
   <div>
-    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-      <el-radio-button :label="false">展开</el-radio-button>
-      <el-radio-button :label="true">收起</el-radio-button>
-    </el-radio-group>
     <el-menu
-      default-active="1-4-1"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
+      :default-active="$route.path"
+      @open="handleOpen" 
       @close="handleClose"
       @select='selectFn'
       :collapse="isCollapse"
     >
       <el-submenu index="1">
         <template slot="title">
-          <i class="el-icon-location"></i>
-          <span slot="title">导航一</span>
+          <i class="el-icon-s-operation"></i>
+          <span slot="title">达成度管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/orderService">订单服务</el-menu-item>
-          <el-menu-item index="/settings">基础设置</el-menu-item>
+          <el-menu-item index="/curriculum">课程质量评价</el-menu-item>
+          <el-menu-item index="/targetEvaluate">指标达成度</el-menu-item>
+          <el-menu-item index="/graduation">毕业要求达成度</el-menu-item>
         </el-menu-item-group>
-        <!-- <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group> -->
       </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
-      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -40,12 +30,15 @@
         isCollapse: false
       };
     },
+    created(){
+      console.log(this.$route)
+    },
     methods: {
-        handleOpen(key, keyPath) {
-            console.log(key, keyPath);
+        handleOpen() {
+            //console.log(key, keyPath);
         },
-        handleClose(key, keyPath) {
-            console.log(key, keyPath);
+        handleClose() {
+            //console.log(key, keyPath);
         },
         selectFn(index,indexPath){
             console.log(index,indexPath)
