@@ -153,15 +153,8 @@ export default {
 
 <style scoped>
     .Second{
-        box-sizing: border-box;
-        position: absolute;
-        top: 89px;
-        display: block !important;
-        bottom: 10px;
-        left: 15px;
-        right: 15px;
+       width: 200px;
+       margin: 0 auto;
     }
-    .Second>div:first-child{
-        width: 100%;
-    }
+
 </style>

@@ -63,7 +63,7 @@ export default {
                 user:'',
                 region:''
             },
-            recordCount:20,
+            recordCount:50,
             currentPage:1,
             max_results:20,
             tableData:[{
@@ -78,8 +78,9 @@ export default {
         onSubmit(){
 
         },
-        paginationCallback(){
-
+        paginationCallback(data){
+            console.log(data)
+            console.log(this.currentPage)
         },
         detelFn(){
 

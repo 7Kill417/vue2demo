@@ -1,7 +1,7 @@
 <template>
   <div class="ExcelTemplete" id="ExcelTemplete">
     <el-dialog :title="title" :visible.sync="handelIsExcelTemplete" @closed='closeIsExcelTemplete'  >
-      <div v-loading="loading">
+      <div v-loading="">
         <div> 
           <el-steps :active="activeNum" align-center>
             <el-step title="导入" icon="el-icon-upload"></el-step>
@@ -14,7 +14,8 @@
       </div>
       <span slot="footer" class="dialog-footer">
           <el-button @click="closeIsExcelTemplete">关闭</el-button>
-          <el-button type="primary" @click="uploadQuotationListDetail">下一步</el-button>
+          <el-button type="primary" @click="uploadQuotationListDetail" v-if="activeNum ==1" >下一步</el-button>
+          <el-button type="primary" @click="againFn"  v-if="activeNum == 2" >重新上传</el-button>
         </span>
     </el-dialog>
   </div>
@@ -69,6 +70,7 @@ export default {
     },
     uploadQuotationListDetail() {
       this.loading = true;
+      this.activeNum = 2;
       let path = this.$route.path;
       let file = this.$store.state.ExcelTemplete.file;
       if (file.constructor === Object) {
@@ -129,6 +131,9 @@ export default {
     closeIsExcelTemplete() {
       this.activeNum = 1;
       this.$emit("bubblingIsExcelTemplete", false);
+    },
+    againFn(){
+      this.activeNum = 1;
     },
   },
   computed: {
