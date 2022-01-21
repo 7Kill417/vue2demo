@@ -8,7 +8,7 @@
         <vSide></vSide>
         <el-main>
           <div class="admin">
-            <router-view ></router-view>
+            <router-view></router-view>
           </div>
         </el-main>
       </el-container>
@@ -27,3 +27,18 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.el-container {
+  height: 100vh;
+  .admin {
+    height: 100%;
+    box-shadow: 0 0 5px #dee1e6;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+  .el-main {
+    padding: 10px;
+    box-sizing: border-box;
+  }
+}
+</style>

@@ -5,6 +5,9 @@ import Router from 'vue-router'
 import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import pagination from '@/components/pagination'  //二次封装element 分页组件
+
+Vue.component('pagination',pagination);
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false

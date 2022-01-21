@@ -2,3 +2,20 @@
     margin: 0;
     padding: 0;
 }
+.searchFrom{
+    border: 1px solid #90b4ce;
+    background: #D8EEFE;
+    border-radius: 5px;
+    padding: 5px 10px;
+    .el-form-item{
+        margin-bottom: 0 !important;
+        box-sizing: border-box;
+        padding: 0;
+    }
+}
+.btnList{
+    margin-top: 10px;
+}
+.tableBox{
+    margin-top: 10px;
+}

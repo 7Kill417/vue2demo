@@ -50,10 +50,18 @@ const routes = [
   }
 ]
 
+
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to,from,next)=>{
+  if(to.meta.title){
+    document.title = to.meta.title+'-欢迎访问达成度评价系统'
+  }
+  next()
 })
 
 export default router
