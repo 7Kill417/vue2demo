@@ -45,14 +45,8 @@ export default {
     if (this.$route.path === "/curriculum") {
       this.title = "课程质量评价导入";
     }else {
-      this.title = "导入";
+      this.title = "毕业要求达成度导入";
     }
-    Bus.$on("val", (data) => {
-      this.merchbillId = data;
-    });
-    Bus.$on("quotationId", (data) => {
-      this.quotationId = data;
-    });
   },
   props: {
     isExcelTemplete: {
@@ -70,7 +64,6 @@ export default {
     },
     uploadQuotationListDetail() {
       this.loading = true;
-      this.activeNum = 2;
       let path = this.$route.path;
       let file = this.$store.state.ExcelTemplete.file;
       if (file.constructor === Object) {
@@ -81,41 +74,44 @@ export default {
       }
       if (path === "/curriculum") {
         let formData = new FormData();
-        formData.append("purchaseBillExcelFile", file);
-        formData.append("merchbillId", this.merchbillId);
+        formData.append("file", file);
+        // formData.append("merchbillId", this.merchbillId);
         this.loading = true;
-        
-        this.$upload
-          .post("/purchasingList/importPurchaseBill", formData)
+        this.$upload.post("/achievelevel/importAchievelevel",formData )
           .then((res) => {
-            if (res.data.result.success) {
+            console.log(res)
+            if (res.data.code == 0 ) {
               this.activeNum = 2;
               //this.$store.commit("ExcelTemplete/getnextStep", true);
               this.$store.commit("ExcelTemplete/getDataInfo", res.data.data);
               this.loading = false;
+              this.$message({
+                type: "success",
+                message: '上传成功',
+              });
             } else {
               this.$message({
                 type: "error",
-                message: res.data.result.message,
+                message: res.data.msg,
               });
             }
           })
       }
-      if (path === '/quoteInventory') {
+      if (path === '/CourseInformation') {
         let formData = new FormData();
         this.loading = true;
-        formData.append('quotationListId', this.quotationId)
-        formData.append("quotationExcelFile", file)
-        this.$upload.post("/quotationList/importQuotation", formData).then((res) => {
-          if (res.data.result.success) {
+        formData.append("file", file)
+        this.$upload.post("/graduationreqiure/import", formData).then((res) => {
+          console.log(res)
+          if (res.data.code == 0) {
             this.activeNum = 2;
-            this.$store.commit("ExcelTemplete/getDataInfo", res.data.data);
+            //this.$store.commit("ExcelTemplete/getDataInfo", res.data.data);
             this.loading = false;
             Bus.$emit('quoteInventoryFn')
           } else {
             this.$message({
               type: "error",
-              message: res.data.result.message,
+              message: res.data.msg,
             });
             this.loading = false;
           }
@@ -126,6 +122,31 @@ export default {
           });
           this.loading = false;
         });
+      }
+      if (path === "/targetEvaluate") {
+        let formData = new FormData();
+        formData.append("file", file);
+        // formData.append("merchbillId", this.merchbillId);
+        this.loading = true;
+        this.$upload.post("/course/importCourselevel",formData )
+          .then((res) => {
+            console.log(res)
+            if (res.data.code == 0 ) {
+              this.activeNum = 2;
+              //this.$store.commit("ExcelTemplete/getnextStep", true);
+              this.$store.commit("ExcelTemplete/getDataInfo", res.data.data);
+              this.loading = false;
+              this.$message({
+                type: "success",
+                message: '上传成功',
+              });
+            } else {
+              this.$message({
+                type: "error",
+                message: res.data.msg,
+              });
+            }
+          })
       }
     },
     closeIsExcelTemplete() {

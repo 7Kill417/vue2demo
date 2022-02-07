@@ -2,6 +2,7 @@
 node_modules
 /dist
 .history
+dist.zip
 
 
 # local env files

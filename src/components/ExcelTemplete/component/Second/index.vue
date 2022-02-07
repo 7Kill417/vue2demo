@@ -1,13 +1,14 @@
 <template>
     <div ref="secondTableHeight" class="Second">
-        <p style="font-size: 14px;">总计导入 <span style="color: #00be71;">
+        <!-- <p style="font-size: 14px;">总计导入 <span style="color: #00be71;">
           {{dataInfo.errorCount ? dataInfo.errorCount+dataInfo.successCount:dataInfo.successCount}}
         </span> 条记录</p>
         <p style="font-size: 14px;">成功导入 <span style="color: #00be71;">{{dataInfo.successCount}}</span>条记录</p>
         <p style="font-size: 14px;">异常导入 <span style="color: red">{{dataInfo.errorCount}}</span> 条记录
           <el-button type="text" style="font-size: 14px" @click="exportErrorPurchaseBills">导出</el-button>
-        </p>
+        </p> -->
         <!-- <errorTable ref="secondErrorTableMyself"></errorTable> -->
+        <p style="text-align: center;">导入成功！</p>
     </div>
 </template>
 

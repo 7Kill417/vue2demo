@@ -7,6 +7,12 @@
       <el-container>
         <vSide></vSide>
         <el-main>
+          <div style="margin-bottom:10px">
+            <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>{{$route.meta.title}}</el-breadcrumb-item>
+          </el-breadcrumb>
+          </div>
           <div class="admin">
             <router-view></router-view>
           </div>
@@ -25,13 +31,16 @@ export default {
     vheader,
     vSide,
   },
+  created(){
+    console.log(this.$route.meta.title)
+  }
 };
 </script>
 <style scoped lang="scss">
 .el-container {
-  height: 100vh;
+  height: calc(100vh - 60px) ;
   .admin {
-    height: 100%;
+    height:calc(100% - 24px);
     box-shadow: 0 0 5px #dee1e6;
     padding: 5px;
     box-sizing: border-box;

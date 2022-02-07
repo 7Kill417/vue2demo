@@ -9,10 +9,9 @@
   </div>
 </template>
 <script>
-import {getMenuList} from '@/api'
 export default {
   created(){
-    getMenuList()
+   
   }
 }
 </script>

@@ -15,8 +15,7 @@
             </el-form>
         </div>
         <div class="btnList">
-            <!-- <el-button type="primary" size="small" icon="el-icon-plus" @click="openAddDia()" >新增</el-button> -->
-            <el-button type="primary" size="small" icon="el-icon-upload2" @click="exuploadFn" >导入</el-button>
+            <el-button type="primary" size="small" icon="el-icon-download" @click="exuploadFn" >导出</el-button>
         </div>
         <div class="tableBox">
             <el-table
@@ -24,11 +23,8 @@
                 :data="tableData"
                 border
                 v-loading="loging"
+                @selection-change="handleSelectionChange"
                 style="width: 100%">
-                <!-- <el-table-column
-                type="selection"
-                width="55">
-                </el-table-column> -->
                 <el-table-column
                 type="index"
                 label="编号"
@@ -49,27 +45,22 @@
                 label="班级"
                 >
                 </el-table-column>
-                <el-table-column column-key="status" label="操作" width="180" fixed="right">
+                <el-table-column column-key="status" label="操作" width="150" fixed="right">
                     <template slot-scope="scope">
-                        <el-button  title="详情" style="color:#409EFF" icon="el-icon-info" size="small" @click="toDetail(scope.row)"></el-button>
-                        <el-button  title="编辑" style="color:#409EFF" icon="el-icon-edit" size="small" @click="openAddDia(scope.row)"></el-button>
-                        <el-button  title="删除" style="color:red" icon="el-icon-delete" size="small" @click="detelFn(scope.row,0)"></el-button>
+                        <el-button  title="毕业要求达成度" style="color:#409EFF" icon="el-icon-receiving" size="small" @click="openAddDia(scope.row)"></el-button>
                     </template>
                 </el-table-column>
             </el-table>
             <pagination :total="recordCount" :page.sync="formInline.page" :limit.sync="formInline.size" @pagination="paginationCallback"></pagination>
         </div>
-        <ExcelTemplate :isExcelTemplete="isExcelTemplate" @bubblingIsExcelTemplete="excelUpload"/>
-        <detailDialog ref="detailDialog" @closeAddDia='closeAddDia'></detailDialog>
     </div>
 </template>
 
 <script>
-import ExcelTemplate from '@/components/ExcelTemplete'
-import detailDialog from './components/detailDialog'
+import axios from 'axios'
+
 import {getAchievelevelList,achievelevelDelete} from '@/api'
 export default {
-    components:{ExcelTemplate,detailDialog},
     data(){
         return{
             formInline:{
@@ -122,7 +113,18 @@ export default {
         },
         detelFn(item,num){
             let data = []
-            data = [item.stuNo]
+            if(num){
+                if(this.multipleSelection.length){
+                    this.multipleSelection.map((ev) =>{
+                        data.push(parseInt(ev.id))
+                    })
+                }else{
+                    this.$message.error('请至少选择一条数据');
+                    return
+                }
+            }else{
+                data = [item.id]
+            }
             this.$confirm('确认删除当前数据吗?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -151,7 +153,15 @@ export default {
         },
         //上传
         exuploadFn(){
-            this.isExcelTemplate = true
+            let myObj = { 
+                method: 'GET',             
+                url: 'http://81.70.95.45:8091/douyin-api/graduationreqiure/exportExcel',  //接口地址
+                fileName: '毕业要求达成度', 
+            }
+            this.exportMethod(myObj); 
+            // this.$upload.post("/graduationreqiure/exportExcel").then((res) =>{
+
+            // })
         },
         //多选
         handleSelectionChange(val){
@@ -164,18 +174,37 @@ export default {
                     this.getdata()
                 }
         }, 
-        //信息修改
+        //新增弹框
         openAddDia(item){
-            this.$refs.detailDialog.openDia(item)
-        },
-        //详情
-        toDetail(item){
-            //this.$refs.detailDialog.openDia(item)
+            console.log(this.$route)
             this.$router.push({
-                path:'/stuDetails',
-                query:item
+                path:'/graduation',
+                query:{stuNo:item.stuNo}
             })
         },
+        //封装导出方法
+        exportMethod(data) {
+            axios({
+                method: data.method,
+                url: data.url,
+                responseType: 'blob',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => { 
+                const link = document.createElement('a')
+                let blob = new Blob([res.data], { type: 'application/vnd.ms-excel' })
+                link.style.display = 'none'
+                link.href = URL.createObjectURL(blob)
+        
+                link.download = data.fileName + '.xls' //下载的文件名  注意：加.xls是兼容火狐浏览器
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
+            }).catch(error => {
+                console.log(error)
+            })
+        }
     }
 }
 </script>

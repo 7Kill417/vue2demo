@@ -11,17 +11,29 @@ const routes = [
     component: Home,
     redirect: '/curriculum',
     children: [
-      {//课程质量评价 
+      {//课程达成度 
         path: '/curriculum',
         name: 'curriculum',
-        meta: {title: '课程质量评价'},
+        meta: {title: '课程达成度'},
         component: () => import('../views/reachDegree/curriculum')
       },
-      {//指标达成度 
+      {//课程达成度(详情)
+        path: '/stuDetails',
+        name: 'stuDetails',
+        meta: {title: '课程达成度详情'},
+        component: () => import('../views/reachDegree/curriculum/details/stuDetails')
+      },
+      {//指标点评价 
         path: '/targetEvaluate',
         name: 'targetEvaluate',
-        meta: {title: '指标达成度'},
+        meta: {title: '指标点评价'},
         component: () => import('../views/reachDegree/targetEvaluate')
+      },
+      {//指标点评价 详情
+        path: '/targetEvaluateDetails',
+        name: 'targetEvaluateDetails',
+        meta: {title: '指标点评价'},
+        component: () => import('../views/reachDegree/targetEvaluate/details/stuDetails')
       },
       {//毕业要求达成度 
         path: '/graduation',
@@ -29,6 +41,24 @@ const routes = [
         meta: {title: '毕业要求达成度'},
         component: () => import('../views/reachDegree/graduation')
       },
+      {
+        path: '/graduationDetails',
+        name: 'graduationDetails',
+        meta: {title: '指标点评价'},
+        component: () => import('../views/reachDegree/graduation/details')
+      },
+      {
+        path:'/stuNoList',
+        name:'stuNoList',
+        meta: {title: '毕业要求达成度学生列表'},
+        component: () => import('../views/reachDegree/graduation/stuNoList')
+      },
+      {//课程信息管理
+        path:'/CourseInformation',
+        name:'CourseInformation',
+        meta: {title: '成课程信息管理'},
+        component: () => import('../views/reachDegree/Course_information')
+      }
       // { //订单
       //   path: '/orderService',
       //   name: 'orderService',
