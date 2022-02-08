@@ -153,12 +153,13 @@ export default {
         },
         //上传
         exuploadFn(){
-            let myObj = { 
-                method: 'GET',             
-                url: 'http://81.70.95.45:8091/douyin-api/graduationreqiure/exportExcel',  //接口地址
-                fileName: '毕业要求达成度', 
-            }
-            this.exportMethod(myObj); 
+            window.open('http://81.70.95.45:8091/douyin-api/graduationreqiure/exportExcel','_blank')
+            // let myObj = { 
+            //     method: 'GET',             
+            //     url: 'http://81.70.95.45:8091/douyin-api/graduationreqiure/exportExcel',  //接口地址
+            //     fileName: '毕业要求达成度', 
+            // }
+            // this.exportMethod(myObj); 
             // this.$upload.post("/graduationreqiure/exportExcel").then((res) =>{
 
             // })

@@ -60,6 +60,11 @@ export const courseDelete = (data) => request({url:`/course/delete`,method:'DELE
 export const courseUpdate = (data) => request({url:`/course/update`,method:'PUT',data:data})
 
 
+//导出 
+export const exportExcel = (data) => request({url:`/graduationreqiure/exportExcel`,method:'GET',responseType: 'blob'})
+
+
+
 
 
 
