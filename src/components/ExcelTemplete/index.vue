@@ -1,7 +1,7 @@
 <template>
   <div class="ExcelTemplete" id="ExcelTemplete">
-    <el-dialog :title="title" :visible.sync="handelIsExcelTemplete" @closed='closeIsExcelTemplete'  >
-      <div v-loading="">
+    <el-dialog :title="title" :visible.sync="handelIsExcelTemplete" @close='closeIsExcelTemplete' :show-close="false"  >
+      <div v-loading="loading">
         <div> 
           <el-steps :active="activeNum" align-center>
             <el-step title="导入" icon="el-icon-upload"></el-step>
@@ -14,7 +14,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
           <el-button @click="closeIsExcelTemplete">关闭</el-button>
-          <el-button type="primary" @click="uploadQuotationListDetail" v-if="activeNum ==1" >下一步</el-button>
+          <el-button type="primary" @click="uploadQuotationListDetail" v-if="activeNum ==1" v-loading="loading" >下一步</el-button>
           <el-button type="primary" @click="againFn"  v-if="activeNum == 2" >重新上传</el-button>
         </span>
     </el-dialog>
@@ -43,9 +43,11 @@ export default {
   },
   created() {
     if (this.$route.path === "/curriculum") {
-      this.title = "课程质量评价导入";
-    }else {
-      this.title = "毕业要求达成度导入";
+      this.title = "课程达成度导入";
+    }else if( this.$route.path === "/CourseInformation"){
+      this.title = "课程信息导入";
+    }else{
+      this.title = "指标点达成度导入";
     }
   },
   props: {
@@ -63,7 +65,6 @@ export default {
       this.usingPriceExcelFile = data.name;
     },
     uploadQuotationListDetail() {
-      this.loading = true;
       let path = this.$route.path;
       let file = this.$store.state.ExcelTemplete.file;
       if (file.constructor === Object) {
@@ -79,12 +80,11 @@ export default {
         this.loading = true;
         this.$upload.post("/achievelevel/importAchievelevel",formData )
           .then((res) => {
-            console.log(res)
+            this.loading = false;
             if (res.data.code == 0 ) {
               this.activeNum = 2;
               //this.$store.commit("ExcelTemplete/getnextStep", true);
               this.$store.commit("ExcelTemplete/getDataInfo", res.data.data);
-              this.loading = false;
               this.$message({
                 type: "success",
                 message: '上传成功',
@@ -102,25 +102,22 @@ export default {
         this.loading = true;
         formData.append("file", file)
         this.$upload.post("/graduationreqiure/import", formData).then((res) => {
-          console.log(res)
+          this.loading = false;
           if (res.data.code == 0) {
             this.activeNum = 2;
             //this.$store.commit("ExcelTemplete/getDataInfo", res.data.data);
-            this.loading = false;
             Bus.$emit('quoteInventoryFn')
           } else {
             this.$message({
               type: "error",
               message: res.data.msg,
             });
-            this.loading = false;
           }
         }).catch(() => {
           this.$message({
             message: "获取信息失败",
             type: "error",
           });
-          this.loading = false;
         });
       }
       if (path === "/targetEvaluate") {
@@ -130,12 +127,12 @@ export default {
         this.loading = true;
         this.$upload.post("/course/importCourselevel",formData )
           .then((res) => {
-            console.log(res)
+            this.loading = false;
             if (res.data.code == 0 ) {
               this.activeNum = 2;
               //this.$store.commit("ExcelTemplete/getnextStep", true);
               this.$store.commit("ExcelTemplete/getDataInfo", res.data.data);
-              this.loading = false;
+              
               this.$message({
                 type: "success",
                 message: '上传成功',

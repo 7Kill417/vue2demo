@@ -16,8 +16,8 @@
         <el-menu-item-group>
           <el-menu-item index="/curriculum">课程达成度</el-menu-item>
           <el-menu-item index="/CourseInformation">课程信息管理</el-menu-item>
-          <el-menu-item index="/stuNoList">毕业要求达成度</el-menu-item>
           <el-menu-item index="/targetEvaluate">指标点达成度</el-menu-item>
+          <el-menu-item index="/stuNoList">毕业要求达成度</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
