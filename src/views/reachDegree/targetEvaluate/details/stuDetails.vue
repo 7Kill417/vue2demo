@@ -95,7 +95,7 @@ export default {
         },
         //删除
         detelFn(item){
-            let arr ={ids:[item.id]} 
+            let arr =[item.id]
             courseDelete(arr).then((res) =>{
                 if(res.code == 0){
                     this.getData()
@@ -114,12 +114,10 @@ export default {
         },
         deletesFn(){
             if(this.idList.length){
-                let arr = {
-                    ids:[]
-                }
+                let arr = []
                 console.log()
                 this.idList.map((ev)=>{
-                    arr.ids.push(ev.id)
+                    arr.push(ev.id)
                 })
                 console.log(arr)
                 this.$confirm('确认要删除当前选中数据吗?', '提示', {
