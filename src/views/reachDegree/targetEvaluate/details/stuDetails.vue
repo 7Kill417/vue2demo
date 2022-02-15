@@ -3,9 +3,14 @@
         <h3>{{fromData.studentName}}指标点达成度</h3>
         <div class="btnList">
             <el-button  size="small" icon="el-icon-back" @click="$router.go(-1)" >返回</el-button>
+            <el-button  size="small" icon="el-icon-delete" type="danger" @click="deletesFn()" >批量删除</el-button>
         </div>
         <div>
-            <el-table :data="dataList" border>
+            <el-table :data="dataList" border  @selection-change="handleSelectionChange">
+                <el-table-column
+                type="selection"
+                width="55">
+                </el-table-column>
                 <el-table-column label="指标点" width="80" prop="kpi"></el-table-column>
                 <el-table-column label="指标点内容" prop="kpiName"></el-table-column>
                 <el-table-column label="指标点达成度" prop="achieveLevel"></el-table-column>
@@ -58,7 +63,8 @@ export default {
                 achieveLevel:'',
                 kpi:''
             },
-            dialogVisible:false
+            dialogVisible:false,
+            idList:[]
         }   
     },
     created(){
@@ -89,7 +95,7 @@ export default {
         },
         //删除
         detelFn(item){
-            let arr = [item.id]
+            let arr ={ids:[item.id]} 
             courseDelete(arr).then((res) =>{
                 if(res.code == 0){
                     this.getData()
@@ -102,6 +108,36 @@ export default {
             this.upfromData.stuNo = this.fromData.stuNo
             console.log(this.upfromData)
             this.dialogVisible = true
+        },
+        handleSelectionChange(val){
+            this.idList = val;
+        },
+        deletesFn(){
+            if(this.idList.length){
+                let arr = {
+                    ids:[]
+                }
+                console.log()
+                this.idList.map((ev)=>{
+                    arr.ids.push(ev.id)
+                })
+                console.log(arr)
+                this.$confirm('确认要删除当前选中数据吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        courseDelete(arr).then((res) =>{
+                            if(res.code == 0){
+                                this.getData()
+                                this.idList=[]
+                                this.$message.success('删除成功')
+                            }
+                        })
+                })
+            }else{
+                this.$message.warning('请至少选择一条信息')
+            }
         }
     }
 }
